@@ -1,0 +1,165 @@
+﻿@model SmallBusinessManagementApp.Models.Models.Sales.Sales
+
+@using (Html.BeginForm("Add", "Sales", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="panel-title">Customer</div>
+                        </div>
+                        <div class="panel-body">
+
+
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.CustomerLookUp, "Customer ", new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(c => c.CustomerId, Model.CustomerLookUp, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.Date, null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(c => c.Date,null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.LoyalityPoint, null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(c => c.LoyalityPoint, null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            
+
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="panel-title">Product</div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.ProductLookUp, "Product ", new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.DropDownListFor(c => c.ProductId, Model.ProductLookUp, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                @Html.Label("Avaiable Quantity", null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBox("AvaiableQuantity", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+
+
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.SalesDetails.Quantity, null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(c => c.SalesDetails.Quantity, null, new { @class = "form-control", onkeyup = "calculatePrice()" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.SalesDetails.UnitPrice, null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(c => c.SalesDetails.UnitPrice, null, new { @class = "form-control", onkeyup = "calculatePrice()" })
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                @Html.LabelFor(c => c.SalesDetails.TotalPrice, null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBoxFor(c => c.SalesDetails.TotalPrice, null, new { @class = "form-control" })
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 col-md-offset-4">
+                                <input type="button" class="btn btn-info" id="AddButton" value="Add" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-md-6">
+                <div class="panel-group">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <div class="panel-title">Product Details</div>
+                        </div>
+                        <div class="panel-body">
+                            <table class="table table-bordered table-hover table-striped table-responsive">
+
+                                <thead>
+                                    <tr style="background-color: green; color: white; font-weight: bold">
+                                        <td>Sl</td>
+                                        <td>Product Name</td>
+                                        <td>Quantity</td>
+                                        <td>Unit Price</td>
+                                        <td>Total Price</td>
+                                        <td>Action</td>
+                                    </tr>
+                                </thead>
+                                <tbody id="SalesDetailsTable"></tbody>
+
+                            </table>
+                            
+                            <div class="form-group row">
+                                @Html.Label("Grand Total", null, new { @class = "control-label col-md-4" })
+                                <div class="col-md-4">
+                                    @Html.TextBox("GrandTotal", null, new { @class = "form-control" })
+                                </div>
+
+                            </div>
+                            
+                            <hr />
+                            <div class="col-md-4 col-md-offset-4">
+                                @if (ViewBag.SMsg != null)
+                                {
+                                    <p style="color: green">@ViewBag.SMsg</p>
+                                }
+                                @if (ViewBag.FMsg != null)
+                                {
+                                    <p style="color: red">@ViewBag.FMsg</p>
+                                }
+                            </div>
+                            <div class="col-md-4 col-md-offset-4 pull-right">
+                                <input type="submit" class="btn btn-success" value="Save" />
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+        
+
+    </div>
+
+
+
+
+
+}
+
+@section scripts
+{
+    
+    <script src="~/Scripts/Sales/SalesCreate.js"></script>
+
+}

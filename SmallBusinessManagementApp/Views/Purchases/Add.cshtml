@@ -1,0 +1,200 @@
+﻿@model SmallBusinessManagementApp.Models.Models.Purchase.Purchase
+
+@using (Html.BeginForm("Add", "Purchases", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+
+    @Html.AntiForgeryToken()
+    <div class="form-horizontal">
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="panel-title">Purchase Header</div>
+                </div>
+                <div class="panel-body">
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.Date,null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.Date, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.BillNo, "Bill/Invoice No : *", new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.BillNo, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+
+
+
+                    <div class="form-group row">
+                        @Html.Label("Supplier",null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(c => c.SupplierId, Model.SupplierLookUp, new { @class = "form-control" })
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="panel-title">Purchase Details</div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group row">
+                        @Html.LabelFor(c=>c.ProductLookUp, "Products *", new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(c => c.ProductId, Model.ProductLookUp, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.Code, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c=>c.PurchaseDetails.Code, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.ManufacturedDate, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.ManufacturedDate, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.ExpiredDate, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.ExpiredDate, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.PurchaseQuantity, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.PurchaseQuantity, null, new { @class = "form-control", onkeyup = "calculatePrice()" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.UnitPrice, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.UnitPrice, null, new { @class = "form-control", onkeyup="calculatePrice()" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.TotalPrice, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.TotalPrice, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.PreviousMRP, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.PreviousMRP, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group row">
+                        @Html.LabelFor(c => c.PurchaseDetails.NewMRP, null, new { @class = "control-label col-md-4" })
+                        <div class="col-md-4">
+                            @Html.TextBoxFor(c => c.PurchaseDetails.NewMRP, null, new { @class = "form-control" })
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-4 col-md-offset-4">
+                        <input type="button" class="btn btn-info" id="AddButton" value="Add" />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="panel-title">Added Purchase Details Items</div>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-bordered table-hover table-striped table-responsive">
+
+                        <thead>
+                            <tr style="background-color: green; color: white; font-weight: bold">
+                                <td>Sl</td>
+                                <td>Product Name</td>
+                                <td>Code</td>
+                                <td>Manufactured Date</td>
+                                <td>Expired Date</td>
+                                <td>Purchase Quantity</td>
+                                <td>Unit Price</td>
+                                <td>Total Price</td>
+                                <td>Previous MRP</td>
+                                <td>New MRP</td>
+                            </tr>
+                        </thead>
+                        <tbody id="PurchaseDetailsTable">
+
+                            @*@if (Model != null && Model.PurchaseDetailses != null && Model.PurchaseDetailses.Count > 0)
+                            {
+                                var sl = 0;
+                                foreach (var item in Model.PurchaseDetailses)
+                                {
+                                    <tr>
+                                        <td>@(++sl)</td>
+                                        <td>@item.Product.Name</td>
+                                        <td>@item.Code</td>
+                                        <td>@item.ManufacturedDate</td>
+                                        <td>@item.ExpiredDate</td>
+                                        <td>@item.PurchaseQuantity</td>
+                                        <td>@item.UnitPrice</td>
+                                        <td>@item.TotalPrice</td>
+                                        <td>@item.PreviousMRP</td>
+                                        <td>@item.NewMRP</td>
+                                    </tr>
+                                }
+                            }*@
+                        </tbody>
+
+                    </table>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <hr />
+    <div class="col-md-4 col-md-offset-4">
+        <input type="submit" class="btn btn-success" value="Save" />
+    </div>
+    
+    <div class="col-md-4 col-md-offset-4">
+        @if (ViewBag.SMsg != null)
+        {
+            <p style="color: green">@ViewBag.SMsg</p>
+        }
+        @if (ViewBag.FMsg != null)
+        {
+            <p style="color: red">@ViewBag.FMsg</p>
+        }
+    </div>
+}
+
+@section scripts
+{
+    <script src="~/Scripts/Purchase/PurchaseCreate.js"></script>
+
+}

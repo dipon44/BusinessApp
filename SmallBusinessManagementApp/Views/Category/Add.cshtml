@@ -1,0 +1,113 @@
+﻿@{
+    ViewBag.Title = "Category Create";
+}
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<h2>Create Category</h2>
+
+ @model List<SmallBusinessManagementApp.Models.Models.Category>
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel-group">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <div class="panel-title">Category Details</div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group row">
+                        @Html.Label("Name", "Category Name *", new {@class = "control-label col-md-4"})
+                        <div class="col-md-4">
+                            @Html.TextBox("Name", null, new {@class = "form-control"})
+                            @if (ViewBag.NMsg != null)
+                            {
+                                <p style="color: red; font-weight: bolder">@(ViewBag.NMsg)</p>
+                            }
+                        </div>
+                    </div>
+
+
+                    <div class="form-group row">
+                        @Html.Label("Code", "Category Code *", new {@class = "control-label col-md-4"})
+                        <div class="col-md-4">
+                            @Html.TextBox("Code", null, new {@class = "form-control"})
+
+                            @if (ViewBag.DMsg != null)
+                            {
+                                <p style="color: red; font-weight: bolder">@(ViewBag.DMsg)</p>
+                            }
+
+                            @if (ViewBag.NMsg != null)
+                            {
+                                <p style="color: red; font-weight: bolder">@(ViewBag.NMsg)</p>
+                            }
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="form-group row">
+                        <div class="col-md-4 pull-right col-md-offset-4">
+                            <input type="submit" class="btn btn-success" value="Save" />
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+
+         
+        </div>
+
+    }
+    
+                @if (ViewBag.SMsg != null)
+                {
+                    <p style="color: green; font-weight: bolder">@(ViewBag.SMsg)</p>
+                }
+
+                else if (ViewBag.FMsg != null)
+                {
+                    <p style="color: red; font-weight: bolder">@(ViewBag.FMsg)</p>
+                }
+                else if (ViewBag.DMsg != null)
+                {
+                    <p style="color: red; font-weight: bolder">@(ViewBag.DMsg)</p>
+                }
+    
+@section Scripts
+    {
+
+                <script src="~/Scripts/SmallBusinessManagementApp/Category/CategoryAdd.js"></script>
+    }
+
+<div class="row">
+               <div class="col-md-8 col-md-offset-2">
+
+                   <h2 align="center">Category List</h2>
+                   <table class="table table-bordered table-striped table-responsive">
+
+                       <tr>
+                           <th>Sl</th>
+                           <th>Name</th>
+                           <th>Code</th>
+                           <th>Action</th>
+                       </tr>
+                       @{ int i = 1; }
+
+                       @foreach (var data in Model)
+                       {
+                           <tr>
+                               <td>
+                                   <label>@i</label>
+                                   @{ i++; }
+                               </td>
+                               <td>@data.Name</td>
+                               <td>@data.Code</td>
+                               <td>
+                                   @Html.ActionLink("Edit", "Edit", "Category", new { id = data.Id }, new { @target = "_blank", @class = "btn btn-default btn-sm" })
+                                   @Html.ActionLink("Delete", "Delete", "Category", new { id = data.Id }, new { @class = "btn btn-danger btn-sm" })
+                               </td>
+                           </tr>
+                       }
+                   </table>
+
+               </div>
+           </div>

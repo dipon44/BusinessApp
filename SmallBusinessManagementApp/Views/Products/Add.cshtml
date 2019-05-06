@@ -1,0 +1,93 @@
+﻿@model SmallBusinessManagementApp.Models.Models.Product
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+
+<h2>Add Product Info</h2><span>@Html.ActionLink("See All Products", "Show", "Products", null, new { @class = "btn btn-info float-right mt-2 btn-lg" })</span>
+
+@using (Html.BeginForm(Html.BeginForm("Add", "Products", FormMethod.Post, new { enctype = "multipart/form-data" })))
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Product Details</div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    @Html.Label("Code", "Product Code *", new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBox("Code", null, new { @class = "form-control" })
+                    </div>
+                    
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.Label("Name", "Product Name *", new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBox("Name", null, new { @class = "form-control" })
+                    </div>
+                   
+                </div>
+
+                <div class="form-group row">
+                    @Html.Label("Category", "Category *", new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+
+                        @Html.DropDownListFor(c => c.CategoryName, Model.CategoryLookUp, new { @class = "form-control" })
+
+                    </div>
+                   
+                </div>
+
+                <div class="form-group row">
+                    @Html.Label("ReorderLevel", "Reorder Level *", new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBox("ReorderLevel", null, new { @class = "form-control" })
+                    </div>
+                   
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.Label("Description", "Description *", new { @class = "control-label col-md-4" })
+                    <div class="col-md-4">
+                        @Html.TextBox("Description", null, new { @class = "form-control" })
+                    </div>
+                    
+                </div>
+                <input type="file" name="UploadFiles" class="btn btn-primary" /><br />
+                <div class="col-md-4 pull-right col-md-offset-4">
+                    <input type="submit" class="btn btn-success" value="Save" />
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+}
+
+@if (ViewBag.SMsg != null)
+{
+    <p style="color: green; font-weight: bolder">@(ViewBag.SMsg)</p>
+}
+
+else if (ViewBag.FMsg != null)
+{
+    <p style="color: red; font-weight: bolder">@(ViewBag.FMsg)</p>
+}
+else if (ViewBag.DMsg != null)
+{
+    <p style="color: red; font-weight: bolder">@(ViewBag.DMsg)</p>
+}
+
+   
+
+
+

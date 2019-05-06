@@ -1,0 +1,76 @@
+﻿@model List<SmallBusinessManagementApp.Models.Models.Customer>
+@{
+    ViewBag.Title = "Show";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h1 class="text-center">Customers Detail Informations</h1>
+    @Html.ActionLink("Add Customer", "Add", "Customers", null, new { @class = "float-left btn btn-info", @style = "margin-bottom:3px;" })
+</div>
+
+<div>
+    @if (ViewData["SMsg"] != null)
+    {
+        <p style="color:green; font-weight: bolder;">@(ViewData["SMsg"])</p>
+    }
+    else if (ViewData["FMsg"] != null)
+    {
+        <p style="color:red; font-weight: bolder;">@(ViewData["FMsg"])</p>
+    }
+</div>
+
+@if (Model != null && Model.Count > 0)
+{
+    var sl = 1;
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th>Sl</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Address</th>
+            <th>Email</th>
+            <th>Contact</th>
+            <th>Loyality Point</th>
+            <th>Image</th>
+            <th>Action</th>
+        </tr>
+        @foreach (var customer in Model)
+        {
+
+            <tr>
+                <td>@(sl++)</td>
+                <td>@customer.Name</td>
+                <td>@customer.Code</td>
+                <td>@customer.Address</td>
+                <td>@customer.Email</td>
+                <td>@customer.Contact</td>
+                <td>@customer.LoyalityPoint</td>
+                <td>
+                    @foreach (var singlefile in customer.CustomerFiles)
+                    {
+                        var img = Convert.ToBase64String(singlefile.File);
+                        var image = String.Format("data:image/gif;base64,{0}", img);
+
+                        <img src="@image" width="150" height="150" />
+
+                    }
+                </td>
+
+                <td>
+                      @Html.ActionLink("Edit", "Edit", "Customers", new { id = customer.Id }, new { @target = "_blank", @class = "btn btn-default btn-sm" })
+                          @foreach (var singlefile in customer.CustomerFiles)
+                         {
+                        @Html.ActionLink("Delete", "Delete", "Customers", new { id = customer.Id, idFile = singlefile.Id }, new { @class = "btn btn-danger btn-sm" })
+                    }
+                </td>
+            </tr>
+       }
+    </table>
+        
+
+}
+
+
+
+

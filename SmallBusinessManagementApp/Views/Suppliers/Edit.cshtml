@@ -1,0 +1,80 @@
+﻿@model SmallBusinessManagementApp.Models.Models.Supplier
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Supplier Update";
+}
+<h2>Update Supplier</h2>
+
+@if (ViewBag.SMsg != null)
+{
+    <p style="color: green; font-weight: bolder">@(ViewBag.SMsg)</p>
+}
+
+else if (ViewBag.FMsg != null)
+{
+    <p style="color: red; font-weight: bolder">@(ViewBag.FMsg)</p>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Supplier Details</div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group row">
+                    @Html.Label("Name", "Supplier Name *", new { @class = "control-label col-md-4" })
+                    @Html.TextBox("Name", null, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Name, null, new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.Label("Code", "Supplier Code *", new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Code, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Code, null, new { @class = "text-danger" })
+                    @if (ViewBag.DMsg != null)
+                    {
+                        <p style="color: red; font-weight: bolder">@(ViewBag.DMsg)</p>
+                    }
+                </div>
+
+                <div class="form-group row">
+                    @Html.Label("Address", "Customer Address *", new { @class = "control-label col-md-4" })
+                    @Html.TextBox("Address", null, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Address, null, new { @class = "text-danger" })
+                </div>
+
+
+                <div class="form-group row">
+                    @Html.Label("Email", "Customer Email *", new { @class = "control-label col-md-4" })
+                    @Html.TextBox("Email", null, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Email, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group row">
+                    @Html.Label("Contact", "Customer Contact *", new { @class = "control-label col-md-4" })
+                    @Html.TextBox("Contact", null, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Contact, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group row">
+                    @Html.Label("Contact Person", "Customer Contact *", new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.ContactPerson, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Contact, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="col-md-4 pull-right col-md-offset-4">
+                    <input type="submit" class="btn btn-success" value="Update" />
+                </div>
+            </div>
+        </div>
+    </div>
+}

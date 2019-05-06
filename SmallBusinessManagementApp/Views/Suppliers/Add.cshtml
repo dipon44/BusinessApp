@@ -1,0 +1,121 @@
+﻿@model SmallBusinessManagementApp.Models.ViewModels.SupplierViewModel
+@{
+    ViewBag.Title = "Save";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.SMsg != null)
+{
+    <p style="color:blue">@ViewBag.SMsg</p>
+}
+
+@if (ViewBag.FMsg != null)
+{
+    <p style="color:Red">@ViewBag.FMsg</p>
+}
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <div class="panel-group">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <div class="panel-title">Supplier Details</div>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    @Html.LabelFor(c => c.Supplier.Code, new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Supplier.Code, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Supplier.Code, null, new { @class = "text-danger" })
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(c => c.Supplier.Name, new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Supplier.Name, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Supplier.Name, null, new { @class = "text-danger" })
+                    @if (ViewBag.DMsg != null)
+                    {
+                        <p style="color: red; font-weight: bolder">@(ViewBag.DMsg)</p>
+                    }
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(c => c.Supplier.Address, new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Supplier.Address, new { @class = "form-control col-md-4" })
+                </div>
+
+
+                <div class="row">
+                    @Html.LabelFor(c => c.Supplier.Email, new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Supplier.Email, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Supplier.Email, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(c => c.Supplier.Contact, new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Supplier.Contact, new { @class = "form-control col-md-4" })
+                    @Html.ValidationMessageFor(c => c.Supplier.Contact, null, new { @class = "text-danger" })
+                </div>
+
+                <div class="row">
+                    @Html.LabelFor(c => c.Supplier.ContactPerson, new { @class = "control-label col-md-4" })
+                    @Html.TextBoxFor(c => c.Supplier.ContactPerson, new { @class = "form-control col-md-4" })
+                </div>
+
+
+                <div class="col-md-4 pull-right col-md-offset-4">
+                    <input type="submit" class="btn btn-success" value="Save" />
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+        <h2 align="center">Supplier List</h2>
+        <table class="table table-bordered table-striped table-responsive">
+
+            <tr>
+                <th>Sl</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>Address</th>
+                <th>Email</th>
+                <th>Contact</th>
+                <th>Contact Person</th>
+                <th>Action</th>
+            </tr>
+            @{ int i = 1; }
+
+            @foreach (var data in Model.Suppliers)
+            {
+                <tr>
+                    <td>
+                        <label>@i</label>
+                        @{ i++; }
+                    </td>
+                    <td>@data.Name</td>
+                    <td>@data.Code</td>
+                    <td>@data.Address</td>
+                    <td>@data.Email</td>
+                    <td>@data.Contact</td>
+                    <td>@data.ContactPerson</td>
+
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Suppliers", new { id = data.Id }, new { @target = "_blank", @class = "btn btn-default btn-sm" })
+                        @Html.ActionLink("Delete", "Delete", "Suppliers", new { id = data.Id }, new { @class = "btn btn-danger btn-sm" })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+
+
+
+

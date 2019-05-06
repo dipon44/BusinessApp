@@ -1,0 +1,75 @@
+﻿@model List<SmallBusinessManagementApp.Models.Models.Product>
+    @{
+        ViewBag.Title = "Show";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }
+
+    <h2>Show</h2>
+
+    <div>
+        <h1 class="text-center">Product Detail Informations</h1>
+        @Html.ActionLink("Add Product", "Add", "Products", null, new { @class = "float-left btn btn-info", @style = "margin-bottom:3px;" })
+    </div>
+
+    <div>
+        @if (ViewData["SMsg"] != null)
+        {
+            <p style="color:green; font-weight: bolder;">@(ViewData["SMsg"])</p>
+        }
+        else if (ViewData["FMsg"] != null)
+        {
+            <p style="color:red; font-weight: bolder;">@(ViewData["FMsg"])</p>
+        }
+    </div>
+
+    @if (Model != null && Model.Count > 0)
+    {
+        var sl = 1;
+        <table class="table table-bordered table-striped">
+            <tr>
+                <th>Sl</th>
+                <th>Code</th>
+                <th>Name</th>
+                <th>Category Name</th>
+                <th>Image</th>
+                <th>ReOrderLevel</th>
+                <th>Description</th>
+                <th>Action</th>
+              
+            </tr>
+            @foreach (var data in Model)
+            {
+
+                <tr>
+                    <td>@(sl++)</td>
+                    <td>@data.Code</td>
+                    <td>@data.Name</td>
+                    <td>@data.CategoryName</td>
+                    <td>
+                        @foreach (var singlefile in data.ProductFiles)
+                        {
+                            var img = Convert.ToBase64String(singlefile.File);
+                            var image = String.Format("data:image/gif;base64,{0}", img);
+
+                            <img src="@image" width="100" height="100" />
+                       }
+                    </td>
+                    <td>@data.ReorderLevel</td>
+                    <td>@data.Description</td>
+                   
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", "Products", new { id = data.Id }, new { @target = "_blank", @class = "btn btn-default btn-sm" })
+                @foreach (var singlefile in data.ProductFiles)
+                {
+                     @Html.ActionLink("Delete", "Delete", "Products", new {id = data.Id, IdFile=singlefile.Id}, new {@class = "btn btn-danger btn-sm"})
+                }
+
+                   </td>
+                    @*</td>*@
+                </tr>
+            }
+        </table>
+    }
+
+
